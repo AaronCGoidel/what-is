@@ -1,0 +1,19 @@
+{
+  "name": "what-is",
+  "version": "1.0.0",
+  "description": "Scraping and serving up-to-date Jeopardy questions",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AaronCGoidel/what-is"
+  },
+  "author": {
+    "name": "Aaron Goidel",
+    "email": "acgoidel@gmail.com",
+    "url": "http://aarongoidel.com/"
+  },
+  "license": "MIT"
+}
