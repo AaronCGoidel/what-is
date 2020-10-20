@@ -1,7 +1,20 @@
 const puppeteer = require("puppeteer");
 
-const process_show = async (show_url) => {
+const process_show = async (page, show_url) => {
   await page.goto(show_url);
+  const air_date = await page.$eval(
+    "#game_title > h1",
+    (elt) => elt.innerText.split(/, (.+)?/)[1]
+  );
+
+  const rounds = await page.$$eval("#content > div", (elts) =>
+    elts
+      .filter((elt) => elt.innerHTML.includes("round"))
+      .map((elt) => {
+        // TODO: process round here
+      })
+  );
+  console.log(rounds);
 };
 
 (async () => {
@@ -14,7 +27,8 @@ const process_show = async (show_url) => {
       elts.map((elt) => elt.href)
     );
 
-  const season_links = (await get_links()).slice(0, -1);
+  // TODO: slice this to -1 for prod
+  const season_links = (await get_links()).slice(0, 1);
   const episode_links = [];
   for (let season_link of season_links) {
     await page.goto(season_link);
@@ -24,12 +38,7 @@ const process_show = async (show_url) => {
 
   const data = [];
   for (let episode of episode_links) {
-    await page.goto(episode);
-    const air_date = await page.$eval(
-      "#game_title > h1",
-      (elt) => elt.innerText.split(/, (.+)?/)[1]
-    );
-    data.push({ air_date: air_date });
+    await process_show(page, episode);
   }
   console.log(data);
   await browser.close();
